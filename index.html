@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Robux Glücksrad - Start</title>
+<link rel="stylesheet" href="style.css" />
+<script>
+  // Prüfe beim Laden, ob ein Nutzer eingeloggt ist
+  window.onload = function() {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      // Weiterleitung zur Wheel-Seite
+      window.location.href = "wheel.html";
+    } else {
+      // Wenn nicht eingeloggt, auf Login-Seite weiterleiten
+      window.location.href = "login.html";
+    }
+  };
+</script>
+</head>
+<body>
+  <h1 style="text-align:center; margin-top: 50px; color: white;">Robux Glücksrad</h1>
+  <p style="text-align:center; color: white;">Du wirst weitergeleitet...</p>
+</body>
+</html>

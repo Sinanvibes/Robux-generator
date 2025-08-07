@@ -1,0 +1,207 @@
+/* Hintergrund mit 4 Grüntönen als Verlauf, animiert */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #0b3d0b,
+    #166916,
+    #3acc3a,
+    #a3f9a3
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: #f0fff0;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: background 0.6s ease;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Login Box mit leichter Transparenz und grünlichem Blur */
+#login-box {
+  background: rgba(34, 85, 34, 0.7); /* dunkleres, aber nicht graues Grün */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px #32cd3244;
+  width: 350px;
+  text-align: center;
+  animation: fadeInScale 0.7s ease forwards;
+  border: 1px solid #3acc3a;
+  color: #d6ffd6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+#login-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px #3acc3aaa;
+}
+
+/* Fade-In + Skalierung */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h1 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #b3f5b3;
+  text-shadow: 0 0 10px #0ca20ccc;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 14px 12px;
+  margin: 10px 0 20px 0;
+  border-radius: 12px;
+  border: 2px solid #0ca20c;
+  font-size: 16px;
+  outline: none;
+  background: rgba(8, 58, 8, 0.8);
+  color: #d6ffd6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+input:focus {
+  border-color: #32cd32;
+  box-shadow: 0 0 12px #32cd32aa;
+}
+
+/* Button mit Hover-Animation */
+button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(45deg, #0ca20c, #32cd32);
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 5px 10px #0ca20caa;
+  transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+}
+button:hover:enabled {
+  background: linear-gradient(45deg, #32cd32, #0ca20c);
+  box-shadow: 0 8px 18px #32cd32dd;
+  transform: translateY(-3px);
+}
+button:disabled {
+  background: #227722;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Fehlermeldung */
+#error-message {
+  color: #ff6961;
+  min-height: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* Wenn Fehler gesetzt, Animation rein */
+#error-message:not(:empty) {
+  opacity: 1;
+}
+
+/* Ergebnis-Text */
+#result {
+  margin-top: 18px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d4f9d4;
+  text-shadow: 0 0 10px #0ca20ccc;
+  animation: popIn 0.5s ease forwards;
+  min-height: 2.5rem;
+}
+
+/* Ergebnis Animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fade-In */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* Wheel Container zentriert */
+.wheel-container {
+  position: relative;
+  width: 520px;
+  height: 580px; /* Canvas + Pfeil */
+  margin: 30px auto;
+  filter: drop-shadow(0 0 15px #32cd32aa);
+}
+
+/* Spin Button auf Wheel */
+#wheel + button {
+  margin-top: 15px;
+  padding: 14px 36px;
+  font-size: 1.4rem;
+  border-radius: 14px;
+  background: linear-gradient(45deg, #0ca20c, #32cd32);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+}
+#wheel + button:hover {
+  background: linear-gradient(45deg, #32cd32, #0ca20c);
+  box-shadow: 0 8px 18px #32cd32dd;
+  transform: translateY(-3px);
+}
+
+/* Pfeil auf Canvas mit leichter Animation */
+canvas {
+  border: 6px solid #0ca20c;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 20px #32cd32bb;
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px #32cd32bb;
+  }
+  50% {
+    box-shadow: 0 0 35px #7cff7cdd;
+  }
+}

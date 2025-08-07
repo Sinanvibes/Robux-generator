@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>Alle User-Daten</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+  pre { background: #222; color: #0f0; padding: 15px; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Alle gespeicherten User-Daten aus localStorage</h1>
+<pre id="output">Lade Daten...</pre>
+
+<script>
+  const output = document.getElementById("output");
+
+  const keys = Object.keys(localStorage);
+  const userKeys = keys.filter(k => k !== 'loggedInUser');
+
+  const allUserData = {};
+
+  userKeys.forEach(key => {
+    try {
+      allUserData[key] = JSON.parse(localStorage.getItem(key));
+    } catch {
+      allUserData[key] = localStorage.getItem(key);
+    }
+  });
+
+  output.textContent = JSON.stringify(allUserData, null, 2);
+</script>
+
+</body>
+</html>

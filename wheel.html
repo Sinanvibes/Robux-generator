@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>Robux Glücksrad</title>
+<!-- Hier kannst du deinen CSS Link einfügen -->
+</head>
+<body>
+
+<div id="user-info" style="color:#b6ffb6; text-align:center; margin-top:20px;">
+  Eingeloggt als: <span id="userDisplay"></span><br />
+  Punkte: <span id="userPoints">0</span><br />
+  Drehversuche übrig: <span id="spinLeft">3</span>
+</div>
+
+<div class="wheel-container" style="text-align:center; margin-top: 40px;">
+  <canvas id="wheel" width="500" height="500" style="border:5px solid #0ca20c; border-radius:50%; background:white;"></canvas><br />
+  <button id="spin" style="margin-top:15px; padding:12px 28px; font-size:1.3rem; background:#0ca20c; color:white; border:none; border-radius:12px; cursor:pointer;">Drehen!</button>
+  <p id="result" style="font-size:1.3rem; color:#004d00; margin-top:15px; min-height:2rem;"></p>
+</div>
+
+<!-- Audio Dateien musst du natürlich passend einbinden -->
+<audio id="spinSound" src="spin.mp3" preload="auto"></audio>
+<audio id="winSound" src="win.mp3" preload="auto"></audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
