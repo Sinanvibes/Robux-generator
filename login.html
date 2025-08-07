@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login - Robux Glücksrad</title>
-<style>
-  @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Robux Glücksrad</title>
+  <style>
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-  body {
-    background: linear-gradient(270deg, #004d00, #1a8a1a, #66cc66, #ccffcc);
-    background-size: 800% 800%;
-    animation: gradientAnimation 15s ease infinite;
-    color: #b6ffb6;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-  }
+    body {
+      background: linear-gradient(270deg, #004d00, #1a8a1a, #66cc66, #ccffcc);
+      background-size: 800% 800%;
+      animation: gradientAnimation 15s ease infinite;
+      color: #b6ffb6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
 
-  #login-box {
-    background: rgba(34, 34, 34, 0.85);
-    padding: 40px 50px;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(12, 162, 12, 0.7);
-    width: 360px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-  }
+    #login-box {
+      background: rgba(34, 34, 34, 0.85);
+      padding: 40px 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(12, 162, 12, 0.7);
+      width: 360px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
 
-  #login-box:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 45px rgba(12, 162, 12, 0.9);
-  }
+    #login-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 45px rgba(12, 162, 12, 0.9);
+    }
 
-  h1 {
-    margin-bottom: 30px;
-    font-weight: 800;
-    font-size: 2.2rem;
-    text-shadow: 0 0 8px #0ca20c;
-  }
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 800;
+      font-size: 2.2rem;
+      text-shadow: 0 0 8px #0ca20c;
+    }
 
-  input {
-    width: 100%;
-    padding: 14px 12px;
-    margin: 12px 0 24px 0;
-    border-radius: 12px;
-    border: none;
-    font-size: 17px;
-    outline: none;
-    background: #222;
-    color: #b6ffb6;
-    box-shadow: inset 0 0 8px #0ca20caa;
-    transition: box-shadow 0.3s ease;
-  }
+    input {
+      width: 100%;
+      padding: 14px 12px;
+      margin: 12px 0 24px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 17px;
+      outline: none;
+      background: #222;
+      color: #b6ffb6;
+      box-shadow: inset 0 0 8px #0ca20caa;
+      transition: box-shadow 0.3s ease;
+    }
 
-  input::placeholder {
-    color: #9ddf9d;
-  }
+    input::placeholder {
+      color: #9ddf9d;
+    }
 
-  input:focus {
-    box-shadow: 0 0 12px #0ca20c;
-  }
+    input:focus {
+      box-shadow: 0 0 12px #0ca20c;
+    }
 
-  button {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #0ca20c, #058700);
-    border: none;
-    border-radius: 14px;
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 6px 15px rgba(12, 162, 12, 0.7);
-  }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #0ca20c, #058700);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 6px 15px rgba(12, 162, 12, 0.7);
+    }
 
-  button:hover {
-    background: linear-gradient(135deg, #058700, #0ca20c);
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(12, 162, 12, 0.9);
-  }
+    button:hover {
+      background: linear-gradient(135deg, #058700, #0ca20c);
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(12, 162, 12, 0.9);
+    }
 
-  #error-message {
-    color: #f54242;
-    margin-top: -15px;
-    margin-bottom: 18px;
-    min-height: 22px;
-    font-weight: 600;
-    font-size: 1rem;
-    text-shadow: 0 0 4px #f54242;
-  }
-</style>
+    #error-message {
+      color: #f54242;
+      margin-top: -15px;
+      margin-bottom: 18px;
+      min-height: 22px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-shadow: 0 0 4px #f54242;
+    }
+  </style>
 </head>
 <body>
   <div id="login-box" title="Zum Login klicken">
@@ -109,53 +109,63 @@
     <button id="loginBtn">Login / Registrieren</button>
   </div>
 
-<script>
-  const loginBtn = document.getElementById('loginBtn');
-  const errorMessage = document.getElementById('error-message');
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMessage = document.getElementById('error-message');
 
-  loginBtn.addEventListener('click', () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
+    loginBtn.addEventListener('click', () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
 
-    // Validation
-    if (username.length < 6) {
-      errorMessage.textContent = "Der Benutzername muss mindestens 6 Zeichen haben.";
-      return;
-    }
-    if (password.length < 6) {
-      errorMessage.textContent = "Das Passwort muss mindestens 6 Zeichen haben.";
-      return;
-    }
-
-    errorMessage.textContent = "";
-
-    let storedUser = localStorage.getItem(username);
-    if (storedUser) {
-      storedUser = JSON.parse(storedUser);
-      if (storedUser.password !== password) {
-        errorMessage.textContent = "Falsches Passwort.";
+      // Eingabe validieren
+      if (username.length < 6) {
+        errorMessage.textContent = "Der Benutzername muss mindestens 6 Zeichen haben.";
         return;
       }
-    } else {
-      storedUser = { password: password, points: 0, spinsLeft: 3 };
-      localStorage.setItem(username, JSON.stringify(storedUser));
-    }
+      if (password.length < 6) {
+        errorMessage.textContent = "Das Passwort muss mindestens 6 Zeichen haben.";
+        return;
+      }
 
-    localStorage.setItem('loggedInUser', username);
+      errorMessage.textContent = "";
 
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Login erfolgreich...";
+      // Prüfen, ob Benutzer schon existiert
+      let storedUser = localStorage.getItem(username);
+      if (storedUser) {
+        storedUser = JSON.parse(storedUser);
+        if (storedUser.password !== password) {
+          errorMessage.textContent = "Falsches Passwort.";
+          return;
+        }
+      } else {
+        // Wenn Benutzer noch nicht existiert, neuen erstellen
+        storedUser = {
+          password: password,
+          points: 0,
+          spinsLeft: 3
+        };
+        localStorage.setItem(username, JSON.stringify(storedUser));
+      }
 
-    setTimeout(() => {
-      window.location.href = 'wheel.html';
-    }, 1000);
-  });
+      // Speichern, welcher User eingeloggt ist
+      localStorage.setItem('loggedInUser', username);
 
-  document.getElementById('password').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      loginBtn.click();
-    }
-  });
-</script>
+      // Optisch Feedback geben
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Login erfolgreich...";
+
+      // Weiterleiten zur Glücksrad-Seite
+      setTimeout(() => {
+        window.location.href = 'wheel.html';
+      }, 1000);
+    });
+
+    // Enter-Taste bei Passwortfeld auslösen
+    document.getElementById('password').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        loginBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>

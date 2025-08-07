@@ -1,30 +1,215 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<title>Robux Glücksrad</title>
-<!-- Hier kannst du deinen CSS Link einfügen -->
+  <meta charset="UTF-8" />
+  <title>Robux Glücksrad</title>
+  <style>
+    body {
+      background: linear-gradient(270deg, #004d00, #1a8a1a, #66cc66, #ccffcc);
+      background-size: 800% 800%;
+      animation: gradientAnimation 15s ease infinite;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    canvas {
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 18px;
+      background: linear-gradient(135deg, #0ca20c, #058700);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(12, 162, 12, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #result {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #0ca20c;
+    }
+  </style>
 </head>
 <body>
+  <h2>Willkommen, <span id="userDisplay"></span></h2>
+  <p>Punkte: <span id="userPoints"></span></p>
+  <p>Drehversuche übrig: <span id="spinLeft"></span></p>
 
-<div id="user-info" style="color:#b6ffb6; text-align:center; margin-top:20px;">
-  Eingeloggt als: <span id="userDisplay"></span><br />
-  Punkte: <span id="userPoints">0</span><br />
-  Drehversuche übrig: <span id="spinLeft">3</span>
-</div>
+  <canvas id="wheel" width="500" height="500"></canvas>
+  <br>
+  <button id="spin">Drehen</button>
+  <p id="result"></p>
 
-<div class="wheel-container" style="text-align:center; margin-top: 40px;">
-  <canvas id="wheel" width="500" height="500" style="border:5px solid #0ca20c; border-radius:50%; background:white;"></canvas><br />
-  <button id="spin" style="margin-top:15px; padding:12px 28px; font-size:1.3rem; background:#0ca20c; color:white; border:none; border-radius:12px; cursor:pointer;">Drehen!</button>
-  <p id="result" style="font-size:1.3rem; color:#004d00; margin-top:15px; min-height:2rem;"></p>
-</div>
+  <audio id="spinSound" src="spin.mp3"></audio>
+  <audio id="winSound" src="win.mp3"></audio>
 
-<!-- Audio Dateien musst du natürlich passend einbinden -->
-<audio id="spinSound" src="spin.mp3" preload="auto"></audio>
-<audio id="winSound" src="win.mp3" preload="auto"></audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script>
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const spinButton = document.getElementById("spin");
+    const resultText = document.getElementById("result");
+    const spinSound = document.getElementById("spinSound");
+    const winSound = document.getElementById("winSound");
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="script.js"></script>
+    const userDisplay = document.getElementById("userDisplay");
+    const userPoints = document.getElementById("userPoints");
+    const spinLeftDisplay = document.getElementById("spinLeft");
 
+    const segments = ["10 Robux", "50 Robux", "0 Robux", "100 Robux", "20 Robux", "200 Robux"];
+    const colors = ["#f54242", "#42f554", "#f5e342", "#4287f5", "#f542dd", "#42f5e3"];
+
+    let angle = 0;
+    let spinning = false;
+
+    const user = localStorage.getItem("loggedInUser");
+    if (!user) {
+      alert("Nicht eingeloggt! Du wirst zurück zur Login-Seite geleitet.");
+      window.location.href = "login.html";
+    }
+
+    let userData = JSON.parse(localStorage.getItem(user)) || {
+      points: 0,
+      spinsLeft: 3
+    };
+
+    function updateUserUI() {
+      userDisplay.textContent = user;
+      userPoints.textContent = userData.points;
+      spinLeftDisplay.textContent = userData.spinsLeft;
+      resultText.textContent = "";
+    }
+
+    function saveUserData() {
+      localStorage.setItem(user, JSON.stringify(userData));
+    }
+
+    function drawWheel() {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = 200;
+      const arcSize = (2 * Math.PI) / segments.length;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < segments.length; i++) {
+        const startAngle = i * arcSize;
+        const endAngle = startAngle + arcSize;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.fillStyle = colors[i];
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(startAngle + arcSize / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#222";
+        ctx.font = "bold 22px Arial";
+        ctx.fillText(segments[i], radius - 15, 10);
+        ctx.restore();
+      }
+
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "#0ca20c";
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
+    function drawSpinningWheel() {
+      ctx.save();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((angle * Math.PI) / 180);
+      ctx.translate(-canvas.width / 2, -canvas.height / 2);
+      drawWheel();
+      ctx.restore();
+
+      ctx.fillStyle = "#0ca20c";
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 2 - 15, 20);
+      ctx.lineTo(canvas.width / 2 + 15, 20);
+      ctx.lineTo(canvas.width / 2, 50);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function spinWheel() {
+      if (spinning || userData.spinsLeft <= 0) return;
+
+      spinning = true;
+      spinButton.disabled = true;
+
+      spinSound?.play().catch(() => {});
+
+      const extraSpin = 360 * 5 + Math.floor(Math.random() * 360);
+      const startAngle = angle;
+      const targetAngle = angle + extraSpin;
+
+      gsap.to({}, {
+        duration: 4,
+        ease: "power4.out",
+        onUpdate() {
+          angle = startAngle + extraSpin * this.progress();
+          angle %= 360;
+          drawSpinningWheel();
+        },
+        onComplete() {
+          angle = targetAngle % 360;
+          drawSpinningWheel();
+          spinning = false;
+          spinButton.disabled = false;
+          showResult();
+        }
+      });
+    }
+
+    function showResult() {
+      const degreesPerSegment = 360 / segments.length;
+      const normalizedAngle = (angle + 360) % 360;
+      const pointerAngle = (normalizedAngle + 90) % 360;
+
+      let index = Math.floor(pointerAngle / degreesPerSegment);
+      index = (segments.length - 1 - index + segments.length) % segments.length;
+
+      const resultSegment = segments[index];
+      resultText.textContent = `🎉 Du hast ${resultSegment} gewonnen!`;
+
+      winSound?.play().catch(() => {});
+
+      const robuxAmount = parseInt(resultSegment) || 0;
+      userData.points += robuxAmount;
+      userData.spinsLeft--;
+      updateUserUI();
+      saveUserData();
+    }
+
+    spinButton.addEventListener("click", spinWheel);
+
+    updateUserUI();
+    drawSpinningWheel();
+  </script>
 </body>
-</html>

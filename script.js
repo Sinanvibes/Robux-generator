@@ -21,11 +21,19 @@ if (!user) {
   window.location.href = "login.html";
 }
 
-let userData = JSON.parse(localStorage.getItem(user)) || {
-  password: "",
-  points: 0,
-  spinsLeft: 3
-};
+// **Login-Daten sicherstellen (Default anlegen, falls nicht vorhanden)**
+if (!localStorage.getItem(user)) {
+  // Initiale Userdaten setzen
+  const initialUserData = {
+    password: "",
+    points: 0,
+    spinsLeft: 3
+  };
+  localStorage.setItem(user, JSON.stringify(initialUserData));
+  console.log("Neuer User angelegt:", user, initialUserData);
+}
+
+let userData = JSON.parse(localStorage.getItem(user));
 
 function updateUserUI() {
   userDisplay.textContent = user;
@@ -36,6 +44,7 @@ function updateUserUI() {
 
 function saveUserData() {
   localStorage.setItem(user, JSON.stringify(userData));
+  console.log("User-Daten gespeichert:", userData);
 }
 
 function drawWheel() {
@@ -57,7 +66,6 @@ function drawWheel() {
     ctx.closePath();
     ctx.fill();
 
-    // Text zeichnen
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(startAngle + arcSize / 2);
@@ -68,7 +76,6 @@ function drawWheel() {
     ctx.restore();
   }
 
-  // Kreislinie
   ctx.lineWidth = 5;
   ctx.strokeStyle = "#0ca20c";
   ctx.beginPath();
@@ -85,7 +92,6 @@ function drawSpinningWheel() {
   drawWheel();
   ctx.restore();
 
-  // Pfeil oben mittig zeichnen
   ctx.fillStyle = "#0ca20c";
   ctx.beginPath();
   ctx.moveTo(canvas.width / 2 - 15, 20);
@@ -136,16 +142,15 @@ function spinWheel() {
 function showResult() {
   const degreesPerSegment = 360 / segments.length;
   const normalizedAngle = (angle + 360) % 360;
-  const pointerAngle = (normalizedAngle + 90) % 360; // Pfeil zeigt bei 90°
+  const pointerAngle = (normalizedAngle + 90) % 360;
 
   let index = Math.floor(pointerAngle / degreesPerSegment);
   index = (segments.length - 1 - index + segments.length) % segments.length;
 
   const resultSegment = segments[index];
 
-  // Animation für Ergebnis-Text zurücksetzen
   resultText.style.animation = 'none';
-  void resultText.offsetWidth; // Reflow triggern
+  void resultText.offsetWidth;
   resultText.style.animation = null;
 
   resultText.textContent = `🎉 Du hast ${resultSegment} gewonnen!`;
